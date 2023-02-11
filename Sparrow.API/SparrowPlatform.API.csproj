@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SparrowPlatform.Application\SparrowPlatform.Application.csproj" />
+    <ProjectReference Include="..\Sparrow.Application\SparrowPlatform.Application.csproj" />
   </ItemGroup>
 
 </Project>

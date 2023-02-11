@@ -40,10 +40,5 @@ namespace SparrowPlatform.Domain.Models
         /// </summary>
         public string secretkey { get; set; }
 
-
-        //public virtual RoleInfo RoleInfo { get; set; }
-        public RoleInfo RoleInfo { get; set; }
-        //public virtual ICollection<UserTenant> UserTenants { get; set; }
-        public List<AccountInfo> Accounts { get; set; }
     }
 }

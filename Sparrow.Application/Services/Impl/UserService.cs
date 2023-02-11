@@ -22,11 +22,6 @@ namespace SparrowPlatform.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IRoleInfoRepository _roleInfoRepository;
-        private readonly IAccountInfoRepository _accountInfoRepository;
-        private readonly IUserAccountRepository _userAccountRepository;
-        private readonly IApplicationRepository _applicationInfoRepository;
-        private readonly IRoleApplicationRepository _roleApplicationRepository;
         private readonly IEmailService _emailService;
         private readonly IHttpClientFactory _httpclientFatory;
         private readonly IHttpContextAccessor _accessor;
@@ -36,11 +31,6 @@ namespace SparrowPlatform.Application.Services
         private readonly string extensionAttribute = "userRole";
 
         public UserService(IUserRepository userRepository,
-            IRoleInfoRepository roleInfoRepository,
-            IAccountInfoRepository accountInfoRepository,
-            IUserAccountRepository userTenantRepository,
-            IApplicationRepository applicationInfoRepository,
-            IRoleApplicationRepository roleApplicationRepository,
             IEmailService emailService,
             IHttpClientFactory httpclientFatory,
             IHttpContextAccessor accessor,
@@ -48,15 +38,10 @@ namespace SparrowPlatform.Application.Services
             IMapper mapper, IUnitOfWork uow)
         {
             _userRepository = userRepository;
-            _roleInfoRepository = roleInfoRepository;
-            this._accountInfoRepository = accountInfoRepository;
-            this._userAccountRepository = userTenantRepository;
-            this._applicationInfoRepository = applicationInfoRepository;
-            this._roleApplicationRepository = roleApplicationRepository;
-            this._emailService = emailService;
-            this._httpclientFatory = httpclientFatory;
-            this._accessor = accessor;
-            this._user = user;
+            _emailService = emailService;
+            _httpclientFatory = httpclientFatory;
+            _accessor = accessor;
+            _user = user;
             _mapper = mapper;
             _uow = uow;
         }
@@ -82,23 +67,12 @@ namespace SparrowPlatform.Application.Services
                 return ApiResultVo<UserResponse>.error("确认密码与密码不一致！");
             }
 
-            if (!(userVo.Role.id > 0))
-            {
-                return ApiResultVo<UserResponse>.error("角色不能为空！");
-            }
-
             var userInfo = _mapper.Map<UserInfo>(userVo);
 
             var userInfoModel = _userRepository.GetUserInfoByLogin(userVo.Login);
             if (userInfoModel != null)
             {
                 return ApiResultVo<UserResponse>.error("This login is already existed.");
-            }
-
-            var selectRoleModel = _roleInfoRepository.GetById(userVo.Role.id);
-            if (selectRoleModel == null)
-            {
-                return ApiResultVo<UserResponse>.error("选择的角色不存在！");
             }
 
             var identities = new List<Identity>() { };
@@ -109,7 +83,7 @@ namespace SparrowPlatform.Application.Services
                 issuerAssignedId = userVo.Login,
             });
 
-            var azureUserDto = AddExtensionAttribute(selectRoleModel.Name);
+            var azureUserDto = AddExtensionAttribute();
             azureUserDto.displayName = userVo.DisplayName;
             azureUserDto.passwordPolicies = "DisablePasswordExpiration";
             azureUserDto.passwordProfile = new Passwordprofile()
@@ -137,21 +111,11 @@ namespace SparrowPlatform.Application.Services
 
                 userInfo.AADId = aadInsert.id;
 
-                userInfo.Accounts = null;
-
                 _userRepository.Add(userInfo);
 
                 if (_uow.Commit())
                 {
                     var uid = userInfo.Id;
-                    if (userVo?.Accounts?.Any() == true)
-                    {
-                        var tenantIds = userVo.Accounts?.Select(d => d.id) ?? new List<string>();
-                        if (uid.IsNotEmptyOrNull())
-                        {
-                            ConfigRelationUserTenant(uid, tenantIds.ToList());
-                        }
-                    }
 
                     return ApiResultVo<UserResponse>.ok(null, "添加成功！");
                 }
@@ -175,12 +139,6 @@ namespace SparrowPlatform.Application.Services
                     return ApiResultVo<UserResponse>.error("该用户不存在！");
                 }
 
-                var selectRoleModel = _roleInfoRepository.GetById(userVo.Role.id);
-                if (selectRoleModel == null)
-                {
-                    return ApiResultVo<UserResponse>.error("选择的角色不存在！");
-                }
-
                 if (!string.IsNullOrEmpty(userVo.Password))
                 {
                     userInfoModel.Password = userVo.Password;
@@ -188,7 +146,6 @@ namespace SparrowPlatform.Application.Services
                 userInfoModel.Email = userVo.Email;
                 userInfoModel.Remark = userVo.Remark;
                 userInfoModel.DisplayName = userVo.DisplayName;
-                userInfoModel.RoleId = userVo.Role.id;
                 userInfoModel.DataScope = userVo.DataScope;
                 userInfoModel.Validity = userVo.Validity;
                 userInfoModel.ApplicationScopeAll = userVo.ApplicationScopeAll;
@@ -208,7 +165,7 @@ namespace SparrowPlatform.Application.Services
                     issuerAssignedId = userInfoModel.Login,
                 });
 
-                var azureUpdateUserDto = AddExtensionAttribute(selectRoleModel.Name);
+                var azureUpdateUserDto = AddExtensionAttribute();
                 azureUpdateUserDto.displayName = userVo.DisplayName;
 
                 if (!string.IsNullOrWhiteSpace(userVo.Password) && userVo.Password.Length > 7)
@@ -231,11 +188,6 @@ namespace SparrowPlatform.Application.Services
                     if (_uow.Commit())
                     {
                         var uid = userInfoModel.Id;
-                        var tenantIds = userVo.Accounts?.Select(d => d.id) ?? new List<string>();
-                        if (uid.IsNotEmptyOrNull())
-                        {
-                            ConfigRelationUserTenant(uid, tenantIds.ToList());
-                        }
 
                         return ApiResultVo<UserResponse>.ok(null, "更新成功！");
                     }
@@ -248,6 +200,18 @@ namespace SparrowPlatform.Application.Services
 
             return ApiResultVo<UserResponse>.error("更新失败！");
         }
+
+        private dynamic AddExtensionAttribute(string role = "admin")
+        {
+            IDictionary<string, object> result = new ExpandoObject();
+
+            var extensionAttr = $"extension_{AzureADAppSetup.b2cExtensionsApplicationClientID}_{extensionAttribute}";
+            result.Add(extensionAttr, role);
+
+            return result as ExpandoObject;
+        }
+
+
         public ApiResultVo<UserResponse> Delete(int Id)
         {
             if (Id.IsNotEmptyOrNull())
@@ -288,12 +252,6 @@ namespace SparrowPlatform.Application.Services
             }
             var data = _userRepository.GetAll().Where(whereExpression).ToList();
 
-            var roles = _roleInfoRepository.GetAll().Where(d => d.IsDeleted == false).ToList();
-            foreach (var item in data)
-            {
-                item.RoleInfo = roles.FirstOrDefault(d => d.Id == item.RoleId);
-            }
-
             return _mapper.Map<List<UserResponse>>(data);
         }
 
@@ -305,17 +263,6 @@ namespace SparrowPlatform.Application.Services
             }
 
             var data = _userRepository.GetPageList(whereExpression, requestPages).ToList();
-            var roles = _roleInfoRepository.GetAll().Where(d => d.IsDeleted == false).ToList();
-            var userAccounts = _userAccountRepository.GetAll().ToList();
-            var tenants = _accountInfoRepository.GetAll().Where(d => d.IsDeleted == false).ToList();
-
-            foreach (var item in data)
-            {
-                var tenantIds = userAccounts.Where(d => d.UserInfoId == item.Id.ToString()).Select(c => c.AccountInfoId).ToList();
-                item.RoleInfo = roles.FirstOrDefault(d => d.Id == item.RoleId);
-                item.Accounts = tenants.FindAll(d => tenantIds.Contains(d.Id));
-            }
-
             return _mapper.Map<List<UserResponse>>(data);
         }
 
@@ -325,35 +272,6 @@ namespace SparrowPlatform.Application.Services
                 .Where(d => d.Id == id && d.IsDeleted == false).FirstOrDefault();
             if (data != null)
             {
-                data.RoleInfo = _roleInfoRepository.GetById(data.RoleId);
-
-                // 1/3 全量
-                if (data.DataScope)
-                {
-                    data.Accounts = _accountInfoRepository.GetAll().Where(d => d.IsDeleted == false).ToList();
-                }
-                else
-                {
-                    var allAccountList = _accountInfoRepository.GetAll();
-                    // 2/3 关系表
-                    var accountsAll = new List<AccountInfo>();
-                    var tenantIds = _userAccountRepository.GetAll().Where(d => d.UserInfoId == data.Id.ToString()).Select(c => c.AccountInfoId).ToList();
-                    var accounts1 = allAccountList.Where(d => tenantIds.Contains(d.Id) && d.IsDeleted == false).ToList();
-                    if (accounts1 != null) accountsAll.AddRange(accounts1);
-
-                    // 3/3 某个应用内全量
-                    if (data.ApplicationScopeAll.IsNotEmptyOrNull())
-                    {
-                        var appOfUses = data.ApplicationScopeAll.Split(",");
-                        List<string> appids = _applicationInfoRepository.GetAll().Where(d => appOfUses.Contains(d.Name)).Select(d => d.Id).ToList();
-
-                        var accounts2 = allAccountList.Where(d => appids.Contains(d.ApplicationId) && d.IsDeleted == false).ToList();
-                        if (accounts2 != null) accountsAll.AddRange(accounts2);
-                    }
-
-                    data.Accounts = accountsAll;
-                }
-
                 return ApiResultVo<UserResponse>.ok(_mapper.Map<UserResponse>(data));
             }
             return ApiResultVo<UserResponse>.error("该用户不存在！");
@@ -370,15 +288,6 @@ namespace SparrowPlatform.Application.Services
 
 
 
-    }
-    public class EmailAddRequest
-    {
-        public string application { get; set; }
-        public string emailAddress { get; set; }
-        public string emailContent { get; set; }
-        public string function { get; set; }
-        public int id { get; set; }
-        public string sendTime { get; set; } = DateTime.Now.AddHours(8).ToString("yyyy-MM-dd HH:mm:ss");
     }
     public class AuditLog
     {

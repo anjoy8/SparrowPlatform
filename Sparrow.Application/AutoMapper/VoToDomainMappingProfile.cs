@@ -13,20 +13,7 @@ namespace SparrowPlatform.Application.AutoMapper
         {
             CreateMap<UserUpdateVo, UserInfo>();
             CreateMap<UserVo, UserInfo>();
-            CreateMap<AccountVo, AccountInfo>();
-            CreateMap<ApplicationVo, Domain.Models.Application>();
-            CreateMap<ApplicationInfosVo, Domain.Models.ApplicationInfos>();
-            CreateMap<RoleVo, RoleInfo>();
-
-            CreateMap<AccountVo, AccountExport>()
-                .ForMember(a => a.EditAt, o => o.MapFrom(d => d.EditAt.ObjDate2String()));
-
-
-            CreateMap<AccountVo, AccountExportZh>()
-                .ForMember(a => a.EditAt, o => o.MapFrom(d => d.EditAt.ObjDate2String()));
-
-            CreateMap<UserAccountVo, AccountInfo>()
-                .ForMember(a => a.AccountName, o => o.MapFrom(d => d.name));
+          
         }
     }
 }

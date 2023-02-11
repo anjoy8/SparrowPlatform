@@ -23,13 +23,12 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "dev",
-        "AZURE_TENANT_ID": "",
-        "AZURE_CLIENT_ID": "",
-        "AZURE_CLIENT_SECRET": "._",
+        "AZURE_TENANT_ID": "AZURE_TENANT_ID",
+        "AZURE_CLIENT_ID": "AZURE_CLIENT_ID",
+        "AZURE_CLIENT_SECRET": "AZURE_CLIENT_SECRET",
         "AZURE_KEY_VAULT_URI": "/"
 
       },
-      "dotnetRunMessages": "true",
       "applicationUrl": "https://localhost:5001;http://localhost:5000"
     }
   }

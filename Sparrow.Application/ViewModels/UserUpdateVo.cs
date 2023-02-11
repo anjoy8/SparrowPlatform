@@ -34,12 +34,6 @@ namespace SparrowPlatform.Application.ViewModels
         [MaxLength(2000)]
         public string Remark { get; set; }
 
-        [ValidatorUpdateUserRole]
-        public UserRoleVo Role { get; set; }
-
-        public List<UserAccountVo> Accounts { get; set; }
-
-
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public string CreatedBy { get; set; }
         public DateTime EditAt { get; set; } = DateTime.Now;

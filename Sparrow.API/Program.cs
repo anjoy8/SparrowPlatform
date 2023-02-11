@@ -20,6 +20,7 @@ namespace SparrowPlatform.API
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
                     var env = hostingContext.HostingEnvironment;
+                    // 首先要配置上你的Azure key vault的相关参数！！！
                     var tenantId = Environment.GetEnvironmentVariable("AZURE_TENANT_ID");
                     var clientId = Environment.GetEnvironmentVariable("AZURE_CLIENT_ID");
                     var clientSecret = Environment.GetEnvironmentVariable("AZURE_CLIENT_SECRET");

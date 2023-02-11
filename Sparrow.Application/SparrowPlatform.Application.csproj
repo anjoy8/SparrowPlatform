@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SparrowPlatform.Infrastruct\SparrowPlatform.Infrastruct.csproj" />
+    <ProjectReference Include="..\Sparrow.Infrastruct\SparrowPlatform.Infrastruct.csproj" />
   </ItemGroup>
 
 </Project>

@@ -37,9 +37,6 @@ namespace SparrowPlatform.API
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             Permissions.USE_GATEWAY = bool.Parse(Configuration["Startup:Permission:UseGateway"]);
 
-            CallBackInfo callBackInfo = new();
-            Configuration.Bind("CallBackInfo", callBackInfo);
-
             ExecutionPlan.current = Configuration.GetSection("ExecutionPlan").Get<ExecutionPlan>();
             AppSetting.current = Configuration.GetSection("AppSetting").Get<AppSetting>();
 

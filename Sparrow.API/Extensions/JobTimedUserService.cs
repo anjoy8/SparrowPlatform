@@ -46,11 +46,9 @@ namespace SparrowPlatform.IntegrateApi.Job.Extensions
                     using (var scope = _scopeFactory.CreateScope())
                     {
                         var _govTrafficService = scope.ServiceProvider.GetRequiredService<IUserService>();
-                        var data = _govTrafficService.QueryUserExpired();
-                        var content = "";
+                        var data = _govTrafficService.GetAll();
                         if (data?.Any() == true)
                         {
-
                             // TODO 执行业务逻辑
                         }
                         Console.WriteLine($"JobTimedUserService 执行完成");

@@ -31,9 +31,6 @@ namespace SparrowPlatform.Gateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var ocelotSet = Configuration.GetSection("OcelotSet").Get<OcelotSet>();
-            AppsetIntegrateGateway.OcelotSet = ocelotSet;
-
             services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddControllers();
@@ -53,8 +50,6 @@ namespace SparrowPlatform.Gateway
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddHostedService<JobTimedSyncPOOIPService>();
-            services.AddScoped<CloudflareSvc>();
 
             services.AddHttpClient();
             services.AddHttpClient("AuthServiceClient", client =>
@@ -67,7 +62,6 @@ namespace SparrowPlatform.Gateway
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCustomExceptionMiddleware();
-            app.UseCloudflarePerm();
 
             if (env.IsDevelopment())
             {
@@ -85,8 +79,6 @@ namespace SparrowPlatform.Gateway
             app.UseSwaggerAuthorized();
 
             app.UsePermission();
-
-            app.UseAuditLog();
 
             app.UseSwagger();
             var apis = new List<string> { "UsersApi"};

@@ -32,14 +32,6 @@ namespace SparrowPlatform.Gateway.Extensions
             var apiPath = context.Request.Path.Value.ToLower();
             Console.WriteLine("PermissionMiddleware " + apiPath);
 
-            // 白名单
-            if (AppsetIntegrateGateway.OcelotSet.AuthWhiteList.Contains(apiPath))
-            {
-                Console.WriteLine("PermissionMiddleware " + apiPath + " auth white list");
-                await next.Invoke(context);
-                return;
-            }
-
             if (apiPath.Contains("/api/") && !apiPath.Contains("login"))
             {
                 _stopwatch.Restart();

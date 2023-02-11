@@ -18,12 +18,5 @@ namespace SparrowPlatform.Application.Services
         ApiResultVo<UserResponse> Delete(int Id);
         List<UserResponse> GetPageList(RequestPages requestPages, Expression<Func<UserInfo, bool>> whereExpression = null);
         ApiResultVo<UserResponse> GetOne(int id);
-        ApiResultVo<UserResponse> GetOneByAAD(string aadid = "");
-        ApiResultVo<string> ValidUser(string key = "", int status = 0);
-        List<UserStatusAlertVo> QueryUserExpired();
-        List<UserStatusAlertVo> QueryUserExpiredToAdmin();
-        bool emailAuditLog(string email = "", string htmlEmail = "", string functionDef = "");
-        bool getCountApplicationinfoByRoleid(int id, string appName);
-        List<RoleApplication> GetAllRoleApplications();
     }
 }
