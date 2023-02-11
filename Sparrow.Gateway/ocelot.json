@@ -1,0 +1,38 @@
+﻿{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/api/{url}",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "LoadBalancerOptions": { "Type": "RoundRobin" },
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "sparrowplatformapi-service",
+          "Port": 8080
+        }
+      ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "user-tenant-svc",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "UpstreamPathTemplate": "/swagger/apiswg/UsersApi/swagger.json",
+      "UpstreamHttpMethod": [ "GET" ],
+      "DownstreamPathTemplate": "/swagger/v1/swagger.json",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "sparrowplatformapi-service",
+          "Port": 8080
+        }
+      ],
+      "LoadBalancer": "RoundRobin",
+      "UseServiceDiscovery": true
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:6900"
+  }
+}

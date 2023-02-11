@@ -1,0 +1,46 @@
+# trigger:
+# - master
+
+# pool:
+#   vmImage: ubuntu-latest
+
+# variables:
+#   buildConfiguration: 'Release'
+
+# steps:
+# - script: dotnet build --configuration $(buildConfiguration)
+#   displayName: 'dotnet build $(buildConfiguration)'
+
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: CopyFiles@2
+      displayName: 'Copy source file: $(Build.ArtifactStagingDirectory)'
+      inputs:
+        SourceFolder: $(Build.SourcesDirectory)
+        TargetFolder: $(Build.ArtifactStagingDirectory)
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish artifacts: src'
+      inputs:
+        PathtoPublish: $(Build.ArtifactStagingDirectory)/
+        ArtifactName: src
+        TargetPath: '\\my\share\$(Build.DefinitionName)\$(Build.BuildNumber)'
