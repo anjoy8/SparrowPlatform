@@ -6,7 +6,7 @@
 框架就是用很小的代码，实现一个微服务，在aks中使用。
 
 # 功能
-1、配置Azure相关pipeline/ingress文件，快速搭建aks的CICD。  
+1、配置Azure相关pipeline/k8s流程文件，快速搭建aks的CICD。  
 2、使用Azure SQL server做持久化数据库。  
 3、使用Azure AAD做用户登录操作和认证鉴权逻辑。  
 4、使用Azure Blob实现文件上传下载。  
