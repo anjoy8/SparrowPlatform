@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using SparrowPlatform.Application.ViewModels;
 using SparrowPlatform.Domain.Models;
-using System.Linq;
 
 namespace SparrowPlatform.Application.AutoMapper
 {
