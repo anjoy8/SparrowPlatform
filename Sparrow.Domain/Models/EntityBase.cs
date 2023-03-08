@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SparrowPlatform.Domain.Models
+﻿namespace SparrowPlatform.Domain.Models
 {
     public abstract class EntityBase
     {

@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace SparrowPlatform.API.Extensions
 {
     /// <summary>
-    /// All dependent injection configuration.
+    /// all dependent injection configuration.
     /// </summary>
     public class NativeInjectorBootStrapper
     {

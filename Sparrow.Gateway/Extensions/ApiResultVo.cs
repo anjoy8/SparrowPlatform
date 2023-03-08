@@ -1,5 +1,8 @@
 ﻿namespace SparrowPlatform.Application.ViewModels
 {
+    /// <summary>
+    /// api result view model.
+    /// </summary>
     public class ApiResultVo<T>
     {
 

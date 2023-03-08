@@ -9,11 +9,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using NETCore.MailKit.Core;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Web;
 
 namespace SparrowPlatform.API.Controllers
 {
@@ -85,7 +81,7 @@ namespace SparrowPlatform.API.Controllers
         }
 
         /// <summary>
-        /// upload a file
+        /// upload a file to blob
         /// </summary>
         /// <returns></returns>
         [HttpPost("upload")]

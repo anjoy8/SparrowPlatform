@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace SparrowPlatform.IntegrateApi.Job.Extensions
 {
+    /// <summary>
+    /// job service.
+    /// </summary>
     public class JobTimedUserService : IHostedService, IDisposable
     {
         private Timer _timer;

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 namespace SparrowPlatform.Gateway.Controllers
 {
     /// <summary>
-    /// common manager
+    /// common controller
     /// </summary>
     [ApiController]
     [Route("api/[controller]/[action]")]
@@ -19,7 +19,7 @@ namespace SparrowPlatform.Gateway.Controllers
         }
 
         /// <summary>
-        /// Get all role information.
+        /// swagger login.
         /// </summary>
         /// <returns></returns>
         [HttpPost]

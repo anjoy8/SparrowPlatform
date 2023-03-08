@@ -42,11 +42,8 @@ namespace SparrowPlatform.API
 
             services.AddCustomServices(Configuration);
 
-            //if (!Permissions.USE_GATEWAY)
-            {
-                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                       .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAdB2C"));
-            }
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAdB2C"));
 
             services.AddAuthorization(options =>
             {
@@ -60,7 +57,6 @@ namespace SparrowPlatform.API
             var conn = Configuration.GetValue<string>("MysqlDbConnectionStrings");
             conn = string.Format(conn, mssqlUserName, mssqlUserPwd);
             services.AddDbContext<SparrowPlatformDbContext>(o => o
-                //.UseLazyLoadingProxies()
                 .UseSqlServer(conn));
 
             services.AddSwaggerGen(c =>

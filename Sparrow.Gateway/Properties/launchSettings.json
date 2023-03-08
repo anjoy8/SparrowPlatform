@@ -11,7 +11,6 @@
         "AZURE_CLIENT_SECRET": "._",
         "AZURE_KEY_VAULT_URI": "/"
       },
-      "dotnetRunMessages": "true",
       "applicationUrl": "http://localhost:6900"
     },
     "Docker": {

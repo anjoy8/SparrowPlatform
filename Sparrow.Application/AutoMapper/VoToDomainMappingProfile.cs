@@ -5,7 +5,7 @@ using SparrowPlatform.Domain.Models;
 namespace SparrowPlatform.Application.AutoMapper
 {
     /// <summary>
-    /// Transformation from view model to entity model.
+    /// Transformation all view models to entity models.
     /// </summary>
     public class VoToDomainMappingProfile : Profile
     {

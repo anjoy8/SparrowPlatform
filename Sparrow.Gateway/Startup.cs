@@ -1,5 +1,4 @@
 using SparrowPlatform.Gateway.Extensions;
-using SparrowPlatform.Gateway.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,8 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
-using NETCore.MailKit.Extensions;
-using NETCore.MailKit.Infrastructure.Internal;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Kubernetes;

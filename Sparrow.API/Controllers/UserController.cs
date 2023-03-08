@@ -26,10 +26,7 @@ namespace SparrowPlatform.API.Controllers
         private readonly IUser _user;
         private readonly IUserService _userService;
 
-        public UserController(ILogger<UserController> logger,
-            IHttpContextAccessor accessor,
-            IUser user,
-            IUserService userService)
+        public UserController(ILogger<UserController> logger, IHttpContextAccessor accessor, IUser user, IUserService userService)
         {
             _logger = logger;
             _accessor = accessor;

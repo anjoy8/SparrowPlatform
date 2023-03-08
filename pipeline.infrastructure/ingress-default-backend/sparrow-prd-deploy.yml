@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sparrow-ingress-default-backend-service
+  labels:
+    app: sparrow-ingress-default-backend
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+  selector:
+    app: sparrow-ingress-default-backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sparrow-ingress-default-backend-deploy
+spec:
+  selector:
+    matchLabels:
+      app: sparrow-ingress-default-backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: sparrow-ingress-default-backend
+    spec:
+      containers:
+        - image: laozhangisphi/sparrow-ingress-default-backend:prd
+          name: sparrow-ingress-default-backend
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+      - name: registry-sparrow-platform

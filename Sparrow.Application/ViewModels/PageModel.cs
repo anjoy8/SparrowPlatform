@@ -3,7 +3,7 @@
 namespace SparrowPlatform.Application.ViewModels
 {
     /// <summary>
-    /// Page model
+    /// page model with t.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class PageModel<T> : ResponseModelBase<T>

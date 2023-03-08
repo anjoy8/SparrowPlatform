@@ -1,6 +1,4 @@
-﻿using SparrowPlatform.Domain.Interfaces;
-
-namespace SparrowPlatform.Domain.Interfaces
+﻿namespace SparrowPlatform.Domain.Interfaces
 {
     public class UserRequest : RequestPages
     {

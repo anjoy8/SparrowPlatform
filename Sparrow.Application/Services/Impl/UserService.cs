@@ -12,7 +12,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
-using System.Net.Http.Headers;
 
 namespace SparrowPlatform.Application.Services
 {
@@ -30,12 +29,7 @@ namespace SparrowPlatform.Application.Services
         private readonly IUnitOfWork _uow;
         private readonly string extensionAttribute = "userRole";
 
-        public UserService(IUserRepository userRepository,
-            IEmailService emailService,
-            IHttpClientFactory httpclientFatory,
-            IHttpContextAccessor accessor,
-            IUser user,
-            IMapper mapper, IUnitOfWork uow)
+        public UserService(IUserRepository userRepository, IEmailService emailService, IHttpClientFactory httpclientFatory, IHttpContextAccessor accessor, IUser user, IMapper mapper, IUnitOfWork uow)
         {
             _userRepository = userRepository;
             _emailService = emailService;

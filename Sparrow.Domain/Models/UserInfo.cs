@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace SparrowPlatform.Domain.Models
 {
@@ -12,7 +11,6 @@ namespace SparrowPlatform.Domain.Models
         public string Email { get; set; }
         public string Remark { get; set; }
         public bool IsDeleted { get; set; }
-
         public string ApplicationScopeAll { get; set; }
         public string AADId { get; set; }
         /// <summary>
@@ -25,16 +23,13 @@ namespace SparrowPlatform.Domain.Models
         public string CreatedBy { get; set; }
         public DateTime EditAt { get; set; } = DateTime.Now;
         public string EditBy { get; set; }
-
         public int RoleId { get; set; }
-
         /// <summary>
         /// 用户状态
         /// 0默认
         /// -1不再给用户发送失效通知
         /// </summary>
         public int status { get; set; }
-
         /// <summary>
         /// 最新过期令牌
         /// </summary>

@@ -31,10 +31,10 @@ spec:
         app: sparrow-platform
     spec:
       containers:
-        - image: laozhangisphi/sparrow-platform:latest
+        - image: laozhangisphi/sparrow-platform:prd
           env:
           - name: ASPNETCORE_ENVIRONMENT
-            value: "dev"
+            value: "prd"
           - name: AZURE_TENANT_ID
             valueFrom:
               secretKeyRef:
@@ -43,13 +43,13 @@ spec:
           - name: AZURE_CLIENT_ID
             valueFrom:
               secretKeyRef:
-                name: sparrow-secretxxxxx
-                key: vault-client-idxxxx
+                name: sparrow-secret
+                key: vault-client-id
           - name: AZURE_CLIENT_SECRET
             valueFrom:
               secretKeyRef:
-                name: sparrow-secretxxx
-                key: vault-secretxxxx
+                name: sparrow-secret
+                key: vault-secret
           - name: AZURE_KEY_VAULT_URI
             value: "https://laozhangisphi.vault.azure.cn/"
           name: sparrow-platform

@@ -1,5 +1,8 @@
 ﻿namespace SparrowPlatform.Domain.Interfaces
 {
+    /// <summary>
+    /// request page viewmodel.
+    /// </summary>
     public class RequestPages
     {
         public int Page { get; set; } = 1;

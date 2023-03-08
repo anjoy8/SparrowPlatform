@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace SparrowPlatform.API.Extensions
 {
     /// <summary>
-    /// Custom authorze configuration handler.
+    /// Custom authorze Claims configuration handler.
     /// </summary>
     public class ClaimsRequirementHandler : AuthorizationHandler<ClaimRequirement>
     {

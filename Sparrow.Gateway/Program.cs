@@ -20,11 +20,9 @@ namespace SparrowPlatform.Gateway
                     var clientId = Environment.GetEnvironmentVariable("AZURE_CLIENT_ID");
                     var clientSecret = Environment.GetEnvironmentVariable("AZURE_CLIENT_SECRET");
                     var vaultUri = Environment.GetEnvironmentVariable("AZURE_KEY_VAULT_URI");
-                    config
-                     .AddJsonFile("appsettings.json", true)
-                     .AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", true)
-                     .AddEnvironmentVariables();
-
+                    config.AddJsonFile("appsettings.json", true)
+                          .AddJsonFile($"appsettings.{hostingContext.HostingEnvironment.EnvironmentName}.json", true)
+                          .AddEnvironmentVariables();
                     config.AddJsonFile("ocelot.json", optional: true, reloadOnChange: true);
                     config.AddAzureKeyVault(vaultUri, clientId, clientSecret);
                 })

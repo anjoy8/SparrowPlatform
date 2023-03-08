@@ -2,6 +2,9 @@
 
 namespace SparrowPlatform.API.Extensions
 {
+    /// <summary>
+    /// ClaimRequirement.
+    /// </summary>
     public class ClaimRequirement : IAuthorizationRequirement
     {
         public ClaimRequirement(string claimName, string claimValue)

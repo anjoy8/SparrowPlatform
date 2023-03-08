@@ -41,7 +41,7 @@ namespace SparrowPlatform.Gateway.Extensions
                         msg = "未找到服务";
                         break;
                     case 405:
-                        msg = "405 Method Not Allowed";
+                        msg = "HTTP请求方式不正确";
                         break;
                     case 502:
                         msg = "请求错误";

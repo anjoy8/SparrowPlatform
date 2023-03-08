@@ -3,7 +3,7 @@
 namespace SparrowPlatform.Application.AutoMapper
 {
     /// <summary>
-    /// Object mapping configuration.
+    /// Object mapping configuration access.
     /// </summary>
     public class AutoMapperConfig
     {

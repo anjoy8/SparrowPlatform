@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 namespace SparrowPlatform.Application.Services
 {
     /// <summary>
-    /// Interface of user service.
+    /// the interface of user service.
     /// </summary>
     public interface IUserService
     {
